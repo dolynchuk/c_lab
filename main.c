@@ -1,9 +1,13 @@
 #include "src/binary_io/index.h"
+#include <stdio.h>
 
 int main() {
-    char filename[] = "index";
-    char content[] = "[[1,2],[2,3],[3, 23444]]";
+    char * filename = "index";
+    char * content = "012345678";
 
-    write(filename, content, sizeof(content));
+    write(filename, content, sizeof(&content));
+
+    char * result = read_string("index", 0, 5);
+    printf("%s", result);
     return 0;
 }
