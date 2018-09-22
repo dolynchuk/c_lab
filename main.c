@@ -1,13 +1,15 @@
-#include "src/binary_io/index.h"
+#include "src/io/index.h"
 #include <stdio.h>
+#include <string.h>
 
 int main() {
-    char * filename = "index";
-    char * content = "012345678";
+    char *USERS_DB_FILENAME = "users.db";
 
-    write(filename, content, sizeof(&content));
+    char *USERS_DB_CONTENT = "Maxym Dolynchuk";
+    WriteFileContent(USERS_DB_FILENAME, USERS_DB_CONTENT, strlen(USERS_DB_CONTENT));
 
-    char * result = read_string("index", 0, 5);
+    char *result = ReadFileContent(USERS_DB_FILENAME, 0, GetFileContentLength(USERS_DB_FILENAME));
     printf("%s", result);
+
     return 0;
 }

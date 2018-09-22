@@ -3,4 +3,4 @@ project(c C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(c main.c src/binary_io/index.c src/binary_io/index.h)
+add_executable(c main.c src/io/index.c src/io/index.h)
