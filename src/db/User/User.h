@@ -1,5 +1,5 @@
-#ifndef C_INDEX_H
-#define C_INDEX_H
+#ifndef C_USER_H
+#define C_USER_H
 
 struct UserModel {
     int userID;
@@ -15,4 +15,4 @@ char *URLEncodeUser(struct UserModel user);
 
 struct UserModel URLDecodeUser(char *userString);
 
-#endif //C_INDEX_H
+#endif //C_USER_H

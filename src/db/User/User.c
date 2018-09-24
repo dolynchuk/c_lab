@@ -1,7 +1,8 @@
-#include "index.h"
+#include "User.h"
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include "../../help/help.h"
 
 // autoIncrement for user primary key
 int userIDCounter = 0;
@@ -63,29 +64,6 @@ char *URLEncodeUser(struct UserModel user) {
     free(buffer);
 
     return spacedBuffer;
-}
-
-
-///ParseValue - helper function =)
-///@param stringToParse
-///@param param
-char *ParseValue(char *stringToParse, char *param) {
-    char *buffer = malloc(sizeof(char) * 100);
-    for (int i = 0; i < strlen(buffer); i++) {
-        buffer[i] = ' ';
-    }
-    char *a = strstr(stringToParse, param);
-    char *b = strstr(a, "=");
-    for (int i = 1; i < strlen(buffer); i++) {
-        if (b[i] == '&' || b[i] == ' ' || b[i] == '\0') {
-            return buffer;
-        }
-        buffer[i - 1] = b[i];
-    }
-    free(b);
-    free(a);
-
-    return buffer;
 }
 
 ///URLDecodeUser - get user from string created withURLDecodeUser
