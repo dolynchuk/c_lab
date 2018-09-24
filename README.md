@@ -1,2 +1,2 @@
 # c_lab
-c program for sql labs
+c program for creating and managing simple database
