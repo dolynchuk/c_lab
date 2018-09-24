@@ -1,5 +1,7 @@
 #include "index.h"
 #include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
 
 
 // autoIncrement for user primary key
