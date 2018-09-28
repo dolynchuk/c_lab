@@ -5,7 +5,6 @@
 #include <string.h>
 #include <wchar.h>
 
-
 ///WriteFileContent - Write string to file.
 ///@param filename - Name of file to write.
 ///@param content - String with content to write.

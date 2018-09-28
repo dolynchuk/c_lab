@@ -11,8 +11,10 @@ struct UserModel {
 
 struct UserModel CreateUser(int age, char *name, char *surname);
 
-char *URLEncodeUser(struct UserModel user);
+int AppendUserToFile(char *filename, struct UserModel user);
 
-struct UserModel URLDecodeUser(char *userString);
+int UpdateUser(char *filename, int seek, struct UserModel *newUser);
+
+struct UserModel *ReadUserFromFile(char *filename, int seek);
 
 #endif //C_USER_H

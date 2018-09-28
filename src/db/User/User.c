@@ -2,15 +2,11 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include "../../help/help.h"
 
 // autoIncrement for user primary key
 int userIDCounter = 0;
 
-///CreateUser - create user struct from params
-///@param age - user age
-///@param name - user name
-///@param surname - user surname
+
 struct UserModel CreateUser(int age, char *name, char *surname) {
     struct UserModel user;
     user.age = age;
@@ -21,75 +17,48 @@ struct UserModel CreateUser(int age, char *name, char *surname) {
     return user;
 }
 
-///URLEncodeUser - create url-like string from user struct
-///@param user - user struct used to create string
-char *URLEncodeUser(struct UserModel user) {
-    char *buffer = malloc(sizeof(char) * 100);
-    char *spacedBuffer = malloc(sizeof(char) * 100);
+int AppendUserToFile(char *filename, struct UserModel user) {
+    FILE *file = fopen(filename, "a");
 
-    strcpy(buffer, "name=");
-    strcat(buffer, (char *) user.name);
-    strcat(buffer, "&");
+    struct UserModel *object = malloc(sizeof(struct UserModel));
+    object->userID = user.userID;
+    object->deleted = user.deleted;
+    object->age = user.age;
+    strcpy((char *) object->name, (char *) user.name);
+    strcpy((char *) object->surname, (char *) user.surname);
 
-    strcat(buffer, "surname=");
-    strcat(buffer, (char *) user.surname);
-    strcat(buffer, "&");
-
-    char numBuffer[100];
-    sprintf(numBuffer, "%d", user.age);
-    strcat(buffer, "age=");
-    strcat(buffer, numBuffer);
-    strcat(buffer, "&");
-
-    char numBuffer2[100];
-    sprintf(numBuffer2, "%d", user.userID);
-    strcat(buffer, "userID=");
-    strcat(buffer, numBuffer2);
-    strcat(buffer, "&");
-
-    char numBuffer3[2];
-    sprintf(numBuffer3, "%d", user.deleted);
-    strcat(buffer, "deleted=");
-    strcat(buffer, numBuffer3);
-
-    for (int i = 0; i < 100; i++) {
-        if (i < strlen(buffer)) {
-            spacedBuffer[i] = buffer[i];
-        } else {
-            spacedBuffer[i] = ' ';
-        }
+    if (file != NULL) {
+        fwrite(object, sizeof(struct UserModel), 1, file);
+        fclose(file);
+        return 0;
+    } else {
+        return 1;
     }
-    spacedBuffer[99] = '\0';
-
-    free(buffer);
-
-    return spacedBuffer;
 }
 
-///URLDecodeUser - get user from string created withURLDecodeUser
-///@param userString - string to parse
-struct UserModel URLDecodeUser(char *userString) {
-    struct UserModel user;
+struct UserModel *ReadUserFromFile(char *filename, int seek) {
+    FILE *file = fopen(filename, "rb");
 
-    char *userID = ParseValue(userString, "userID");
-    user.userID = atoi(userID);
-    free(userID);
+    struct UserModel *object = malloc(sizeof(struct UserModel));
 
-    char *deleted = ParseValue(userString, "deleted");
-    user.deleted = atoi(deleted);
-    free(deleted);
+    if (file != NULL) {
+        fseek(file, seek, SEEK_SET);
+        fread(object, sizeof(struct UserModel), 1, file);
+        fclose(file);
+    }
+    return object;
+}
 
-    char *age = ParseValue(userString, "age");
-    user.age = atoi(age);
-    free(age);
+int UpdateUser(char *filename, int seek, struct UserModel *newUser) {
+    FILE *file = fopen(filename, "r+");
 
-    char *name = ParseValue(userString, "name");
-    strcpy((char *) user.name, name);
-    free(name);
+    if (file != NULL) {
+        fseek(file, seek, SEEK_SET);
+        fwrite(newUser, sizeof(struct UserModel), 1, file);
+        fclose(file);
+        return 0;
+    } else {
+        return 1;
+    }
 
-    char *surname = ParseValue(userString, "surname");
-    strcpy((char *) user.surname, surname);
-    free(surname);
-
-    return user;
 }

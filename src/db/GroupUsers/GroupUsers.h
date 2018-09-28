@@ -10,8 +10,4 @@ struct GroupUsersModel {
 
 struct GroupUsersModel CreateGroupUsers(int groupID, int userID);
 
-char *URLEncodeGroupUsers(struct GroupUsersModel group);
-
-struct GroupUsersModel URLDecodeGroupUsers(char *groupUsersString);
-
 #endif //C_GROUP_USERS_H
