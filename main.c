@@ -7,22 +7,17 @@
 #include "src/db/GroupUsers/GroupUsers.h"
 
 int main() {
-    //first user
     struct UserModel user1 = CreateUser(18, "Maxym", "Dolynchuk");
 
-    //first group
-    struct GroupModel group1 = CreateGroup("anekdoty");
+    AppendUserToFile("users.db", user1);
 
-    //relate user with group
-    struct GroupUsersModel groupUsersModel = CreateGroupUsers(0, 0);
+    struct UserModel user2 = CreateUser(18, "ALIN", "SKALKINA");
 
+    UpdateUser("users.db", 0, &user2);
 
-    char *user1String = URLEncodeUser(user1);
+    struct UserModel *read = ReadUserFromFile("users.db", 0);
 
-    struct UserModel user1parsed = URLDecodeUser(user1String);
-
-
-    printf("%d", user1parsed.userID);
+    printf((char *)read->name);
 
     return 0;
 }
