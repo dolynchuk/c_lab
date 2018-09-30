@@ -17,7 +17,7 @@ struct UserModel CreateUser(int age, char *name, char *surname) {
     return user;
 }
 
-int AppendUserToFile(char *filename, struct UserModel user) {
+int AppendGroupToFile(char *filename, struct UserModel user) {
     FILE *file = fopen(filename, "a");
 
     struct UserModel *object = malloc(sizeof(struct UserModel));
@@ -36,7 +36,7 @@ int AppendUserToFile(char *filename, struct UserModel user) {
     }
 }
 
-struct UserModel *ReadUserFromFile(char *filename, int seek) {
+struct UserModel *ReadGroupUsersFromFile(char *filename, int seek) {
     FILE *file = fopen(filename, "rb");
 
     struct UserModel *object = malloc(sizeof(struct UserModel));

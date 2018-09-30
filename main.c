@@ -9,13 +9,13 @@
 int main() {
     struct UserModel user1 = CreateUser(18, "Maxym", "Dolynchuk");
 
-    AppendUserToFile("users.db", user1);
+    AppendGroupToFile("users.db", user1);
 
     struct UserModel user2 = CreateUser(18, "ALIN", "SKALKINA");
 
     UpdateUser("users.db", 0, &user2);
 
-    struct UserModel *read = ReadUserFromFile("users.db", 0);
+    struct UserModel *read = ReadGroupUsersFromFile("users.db", 0);
 
     printf((char *)read->name);
 

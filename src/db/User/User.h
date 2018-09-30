@@ -11,10 +11,10 @@ struct UserModel {
 
 struct UserModel CreateUser(int age, char *name, char *surname);
 
-int AppendUserToFile(char *filename, struct UserModel user);
+int AppendGroupToFile(char *filename, struct UserModel user);
 
 int UpdateUser(char *filename, int seek, struct UserModel *newUser);
 
-struct UserModel *ReadUserFromFile(char *filename, int seek);
+struct UserModel *ReadGroupUsersFromFile(char *filename, int seek);
 
 #endif //C_USER_H
