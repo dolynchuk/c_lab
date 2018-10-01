@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-// autoIncrement for user primary key
 int userIDCounter = 0;
 
 
