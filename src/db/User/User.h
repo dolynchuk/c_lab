@@ -1,20 +1,20 @@
 #ifndef C_USER_H
 #define C_USER_H
 
-struct UserModel {
+typedef struct  UserModel {
     int userID;
     int age;
     int deleted;
     char *name[50];
     char *surname[50];
-};
+}               user_model;
 
-struct UserModel CreateUser(int age, char *name, char *surname);
+user_model CreateUser(int age, char *name, char *surname);
 
-int AppendGroupToFile(char *filename, struct UserModel user);
+int AppendGroupToFile(char *filename, user_model user);
 
-int UpdateUser(char *filename, int seek, struct UserModel *newUser);
+int UpdateUser(char *filename, int seek, user_model *newUser);
 
-struct UserModel *ReadGroupUsersFromFile(char *filename, int seek);
+user_model *ReadGroupUsersFromFile(char *filename, int seek);
 
 #endif //C_USER_H
