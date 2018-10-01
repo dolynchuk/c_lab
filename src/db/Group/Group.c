@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-// autoIncrement for group primary key
 int groupIDCounter = 0;
 
 struct GroupModel CreateGroup(char *name) {
