@@ -3,31 +3,31 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-int userIDCounter = 0;
+int user_id_counter = 0;
 
 
-struct UserModel CreateUser(int age, char *name, char *surname) {
-    struct UserModel user;
+user_model create_user(int age, char *name, char *surname) {
+    user_model user;
     user.age = age;
     strcpy((char *) user.name, name);
     strcpy((char *) user.surname, surname);
-    user.userID = userIDCounter++;
+    user.user_id = user_id_counter++;
     user.deleted = 0;
     return user;
 }
 
-int AppendGroupToFile(char *filename, struct UserModel user) {
+int append_user_to_file(char *filename, user_model user) {
     FILE *file = fopen(filename, "a");
 
-    struct UserModel *object = malloc(sizeof(struct UserModel));
-    object->userID = user.userID;
+    user_model *object = malloc(sizeof(user_model));
+    object->user_id = user.user_id;
     object->deleted = user.deleted;
     object->age = user.age;
     strcpy((char *) object->name, (char *) user.name);
     strcpy((char *) object->surname, (char *) user.surname);
 
     if (file != NULL) {
-        fwrite(object, sizeof(struct UserModel), 1, file);
+        fwrite(object, sizeof(user_model), 1, file);
         fclose(file);
         return 0;
     } else {
@@ -35,29 +35,28 @@ int AppendGroupToFile(char *filename, struct UserModel user) {
     }
 }
 
-struct UserModel *ReadGroupUsersFromFile(char *filename, int seek) {
+user_model *read_user_from_file(char *filename, int seek) {
     FILE *file = fopen(filename, "rb");
 
-    struct UserModel *object = malloc(sizeof(struct UserModel));
+    user_model *object = malloc(sizeof(user_model));
 
     if (file != NULL) {
         fseek(file, seek, SEEK_SET);
-        fread(object, sizeof(struct UserModel), 1, file);
+        fread(object, sizeof(user_model), 1, file);
         fclose(file);
     }
     return object;
 }
 
-int UpdateUser(char *filename, int seek, struct UserModel *newUser) {
+int update_user(char *filename, int seek, user_model *newUser) {
     FILE *file = fopen(filename, "r+");
 
     if (file != NULL) {
         fseek(file, seek, SEEK_SET);
-        fwrite(newUser, sizeof(struct UserModel), 1, file);
+        fwrite(newUser, sizeof(user_model), 1, file);
         fclose(file);
         return 0;
     } else {
         return 1;
     }
-
 }

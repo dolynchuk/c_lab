@@ -8,11 +8,11 @@
 ///WriteFileContent - Write string to file.
 ///@param filename - Name of file to write.
 ///@param content - String with content to write.
-///@param contentLength - Number of chars in string.
-int WriteFileContent(char *filename, char *content, unsigned long contentLength) {
+///@param content_length - Number of chars in string.
+int write_file_content(char *filename, char *content, size_t content_length) {
     FILE *file = fopen(filename, "w");
 
-    fwrite(content, sizeof(char), contentLength, file);
+    fwrite(content, sizeof(char), content_length, file);
     fclose(file);
 
     return 0;
@@ -21,12 +21,12 @@ int WriteFileContent(char *filename, char *content, unsigned long contentLength)
 ///ReadFileContent - Write string to file.
 ///@param filename - Name of file to write.
 ///@param start - starting point.
-///@param contentLength - Number of chars in string.
-char *ReadFileContent(char *filename, int start, unsigned long contentLength) {
+///@param content_length - Number of chars in string.
+char *read_file_content(char *filename, int start, size_t content_length) {
     FILE *file = fopen(filename, "r");
 
-    char buffer[contentLength];
-    buffer[contentLength - 1] = '\0';
+    char buffer[content_length];
+    buffer[content_length - 1] = '\0';
     fseek(file, start * sizeof(char), SEEK_SET);
     fgets(buffer, sizeof(buffer) + 1, file);
     fclose(file);
@@ -37,12 +37,12 @@ char *ReadFileContent(char *filename, int start, unsigned long contentLength) {
 
 ///GetFileContentLength - Calculate file content length in bytes.
 ///@param filename - Name of file;
-unsigned long GetFileContentLength(char *filename){
+size_t get_file_content_length(char *filename) {
     FILE *file = fopen(filename, "rb");
 
     fseek(file, 0, SEEK_END);
-    long lengthOfFile = ftell(file);
+    long length = ftell(file);
     fclose(file);
 
-    return (unsigned long)lengthOfFile;
+    return (size_t) length;
 }
