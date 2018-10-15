@@ -14,6 +14,19 @@ size_t index_size = 8;
 //size_t group_size = 60;
 //size_t group_users_size = 16;
 
+
+int __get_index_first_byte(int id, char *index_filename) {
+    int first_byte = -1;
+    for (int i = 0; i < index_size * 1000; i += index_size) {
+        index_file_model *index = read_index_from_file(index_filename, i);
+        if (index->id == id) {
+            first_byte = index->first_byte;
+            break;
+        }
+    }
+    return first_byte;
+}
+
 user_model get_user(int id) {
     int first_byte = -1;
     for (int i = 0; i < index_size * 1000; i += index_size) {
@@ -28,21 +41,8 @@ user_model get_user(int id) {
     } else return *read_user_from_file("user.db", first_byte);
 }
 
-int __get_user_first_byte(int id) {
-    int first_byte = -1;
-    for (int i = 0; i < index_size * 1000; i += index_size) {
-        index_file_model *index = read_index_from_file("user.index", i);
-        if (index->id == id) {
-            first_byte = index->first_byte;
-            break;
-        }
-    }
-    return first_byte;
-}
-
-
 int insert_user(user_model user) {
-    int created_before_first_byte = __get_user_first_byte(user.user_id);
+    int created_before_first_byte = __get_index_first_byte(user.user_id, "user.index");
     if (created_before_first_byte != -1) {
         update_user("user.db", created_before_first_byte, &user);
         index_file_model user_index = create_index(user.user_id, created_before_first_byte);
@@ -76,20 +76,8 @@ group_model get_group(int id) {
     } else return *read_group_from_file("group.db", first_byte);
 }
 
-int __get_group_first_byte(int id) {
-    int first_byte = -1;
-    for (int i = 0; i < index_size * 1000; i += index_size) {
-        index_file_model *index = read_index_from_file("group.index", i);
-        if (index->id == id) {
-            first_byte = index->first_byte;
-            break;
-        }
-    }
-    return first_byte;
-}
-
 int insert_group(group_model group) {
-    int created_before_first_byte = __get_group_first_byte(group.group_id);
+    int created_before_first_byte = __get_index_first_byte(group.group_id, "group.index");
     if (created_before_first_byte != -1) {
         update_group("group.db", created_before_first_byte, &group);
         index_file_model group_index = create_index(group.group_id, created_before_first_byte);
@@ -125,20 +113,8 @@ group_users_model get_group_users(int id) {
     } else return *read_group_users_from_file("group_users.db", first_byte);
 }
 
-int __get_group_users_first_byte(int id) {
-    int first_byte = -1;
-    for (int i = 0; i < index_size * 1000; i += index_size) {
-        index_file_model *index = read_index_from_file("group_users.index", i);
-        if (index->id == id) {
-            first_byte = index->first_byte;
-            break;
-        }
-    }
-    return first_byte;
-}
-
 int insert_group_users(group_users_model group_users) {
-    int created_before_first_byte = __get_group_users_first_byte(group_users.group_users_id);
+    int created_before_first_byte = __get_index_first_byte(group_users.group_users_id, "group_users.index");
     if (created_before_first_byte != -1) {
         update_group_users("group_users.db", created_before_first_byte, &group_users);
         index_file_model group_users_index = create_index(group_users.group_users_id, created_before_first_byte);
