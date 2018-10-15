@@ -17,6 +17,7 @@ group_users_model create_group_users(int group_id, int user_id) {
 
 int append_group_users_to_file(char *filename, group_users_model group_users) {
     FILE *file = fopen(filename, "a");
+    int first_byte = (int) ftell(file);
 
     group_users_model *object = malloc(sizeof(group_users_model));
     object->group_users_id = group_users.group_users_id;
@@ -27,7 +28,7 @@ int append_group_users_to_file(char *filename, group_users_model group_users) {
     if (file != NULL) {
         fwrite(object, sizeof(group_users_model), 1, file);
         fclose(file);
-        return 0;
+        return first_byte;
     } else {
         return 1;
     }
