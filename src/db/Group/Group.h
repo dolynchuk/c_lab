@@ -9,10 +9,14 @@ typedef struct GROUP_MODEL {
 
 group_model create_group(char *name);
 
-int append_group_to_file(char *filename, group_model group);
+int __append_group_to_file(char *filename, group_model group);
 
-group_model *read_group_from_file(char *filename, int seek);
+group_model *__read_group_from_file(char *filename, int seek);
 
-int update_group(char *filename, int seek, group_model *new_group);
+int __update_group(char *filename, int seek, group_model *new_group);
+
+int clear_group_db();
+
+group_model get_group(int id);
 
 #endif //C_GROUP_H

@@ -4,6 +4,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <wchar.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
 
 ///WriteFileContent - Write string to file.
 ///@param filename - Name of file to write.
@@ -38,11 +41,9 @@ char *read_file_content(char *filename, int start, size_t content_length) {
 ///GetFileContentLength - Calculate file content length in bytes.
 ///@param filename - Name of file;
 size_t get_file_content_length(char *filename) {
-    FILE *file = fopen(filename, "rb");
-
-    fseek(file, 0, SEEK_END);
-    long length = ftell(file);
-    fclose(file);
-
-    return (size_t) length;
+    FILE *file = fopen(filename, "r");
+    int fd = fileno(file);
+    struct stat buf;
+    fstat(fd, &buf);
+    return buf.st_size;
 }

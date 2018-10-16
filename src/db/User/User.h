@@ -11,10 +11,14 @@ typedef struct USER_MODEL {
 
 user_model create_user(int age, char *name, char *surname);
 
-int append_user_to_file(char *filename, user_model user);
+int __append_user_to_file(char *filename, user_model user);
 
-user_model *read_user_from_file(char *filename, int seek);
+user_model *__read_user_from_file(char *filename, int seek);
 
-int update_user(char *filename, int seek, user_model *newUser);
+int __update_user(char *filename, int seek, user_model *newUser);
+
+int clear_user_db();
+
+user_model get_user(int id);
 
 #endif //C_USER_H
