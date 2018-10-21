@@ -1,12 +1,7 @@
-#include "Group_users.h"
-#include <string.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include "../../io/io.h"
-#include "../../db/indexfile.h"
+#include "group_users.h"
 
-// autoIncrement for group primary key
-int group_users_id_counter = 0;
+// autoIncrement for groups primary key
+int group_users_id_counter = 1;
 size_t __group_users_index_size = 8;
 
 group_users_model create_group_users(int group_id, int user_id) {

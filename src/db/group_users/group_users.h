@@ -1,6 +1,12 @@
 #ifndef C_GROUP_USERS_H
 #define C_GROUP_USERS_H
 
+#include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include "../../io/io.h"
+#include "../index_file/index_file.h"
+
 typedef struct GROUP_USERS_MODEL {
     int group_users_id;
     int deleted;
@@ -17,7 +23,5 @@ group_users_model *__read_group_users_from_file(char *filename, int seek);
 int __update_group_users(char *filename, int seek, group_users_model *new_group_users);
 
 int clear_group_users_db();
-
-group_users_model get_group_users(int id);
 
 #endif //C_GROUP_USERS_H

@@ -1,7 +1,4 @@
-#include "indexfile.h"
-#include <string.h>
-#include <stdlib.h>
-#include <stdio.h>
+#include "index_file.h"
 
 index_file_model create_index(int id, int first_byte) {
     index_file_model index;

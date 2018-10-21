@@ -1,9 +1,4 @@
-#include "Group.h"
-#include <string.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include "../../io/io.h"
-#include "../../db/indexfile.h"
+#include "groups.h"
 
 int group_id_counter = 0;
 size_t __group_index_size = 8;
@@ -19,7 +14,7 @@ group_model create_group(char *name) {
 group_model get_group(int id) {
     int first_byte = -1;
     for (int i = 0; i < __group_index_size * 1000; i += __group_index_size) {
-        index_file_model *index = read_index_from_file("group.index", i);
+        index_file_model *index = read_index_from_file("groups.index", i);
         if (index->id == id) {
             first_byte = index->first_byte;
             break;
@@ -28,7 +23,7 @@ group_model get_group(int id) {
     if (first_byte == -1) {
         return create_group("");
     }
-    return *__read_group_from_file("group.db", first_byte);
+    return *__read_group_from_file("groups.db", first_byte);
 }
 
 int __append_group_to_file(char *filename, group_model group) {
@@ -76,6 +71,6 @@ int __update_group(char *filename, int seek, group_model *new_group) {
 }
 
 int clear_group_db() {
-    write_file_content("group.db", NULL, 0);
-    write_file_content("group.index", NULL, 0);
+    write_file_content("groups.db", NULL, 0);
+    write_file_content("groups.index", NULL, 0);
 }

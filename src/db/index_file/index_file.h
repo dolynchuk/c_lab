@@ -1,6 +1,10 @@
 #ifndef C_INDEXFILE_H
 #define C_INDEXFILE_H
 
+#include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
+
 typedef struct INDEX_FILE_MODEL {
     int id;
     int first_byte;

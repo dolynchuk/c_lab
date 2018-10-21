@@ -1,6 +1,12 @@
 #ifndef C_GROUP_H
 #define C_GROUP_H
 
+#include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include "../../io/io.h"
+#include "../index_file/index_file.h"
+
 typedef struct GROUP_MODEL {
     int group_id;
     int deleted;
