@@ -29,6 +29,4 @@ int update_user(int id, user_model user);
 
 int remove_users_data();
 
-index_file_model *__get_users_indexes__();
-
 #endif //C_USER_H

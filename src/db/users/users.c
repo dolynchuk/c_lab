@@ -2,20 +2,6 @@
 
 int user_id_counter = 1;
 
-index_file_model *__get_users_indexes__() {
-    FILE *file = fopen("users.index", "rb");
-    int i = 0;
-    index_file_model *index = malloc(sizeof(index_file_model) * 100);
-    while (1) {
-        fread(&index[i], sizeof(index_file_model), 1, file);
-        i++;
-        if (feof(file)) {
-            break;
-        }
-    }
-    fclose(file);
-    return index;
-}
 
 user_model *__get_users_db__() {
     FILE *file = fopen("users.db", "rb");
@@ -102,7 +88,7 @@ user_model get_user(int id) {
         return create_user(0, "", "");
     }
 
-    index_file_model *indexes = __get_users_indexes__();
+    index_file_model *indexes = get_file_indexes("users.index");
     for (int i = 0; i < 100; i++) {
         if (indexes[i].id == id) {
             return *__read_user_from_db__(indexes[i].first_byte);
@@ -115,7 +101,7 @@ user_model get_user(int id) {
 int update_user(int id, user_model user) {
     user.user_id = id;
 
-    index_file_model *indexes = __get_users_indexes__();
+    index_file_model *indexes = get_file_indexes("users.index");
     for (int i = 0; i < 100; i++) {
         if (indexes[i].id == id) {
             __update_user_db(indexes[i].first_byte, &user);
@@ -125,19 +111,13 @@ int update_user(int id, user_model user) {
 }
 
 int count_users() {
-    index_file_model *indexes = __get_users_indexes__();
-    int count = 0;
-    for (int i = 0; i < 100; i++) {
-        if (indexes[i].id) {
-            count++;
-        }
-    }
-    return count;
+    return count_indexes("users.index");
 }
 
 int remove_users_data() {
     remove("users.db");
     remove("users.index");
+
     return 0;
 }
 
@@ -163,4 +143,6 @@ int remove_user(int id) {
             insert_user(filtered_users_db[i]);
         }
     }
+
+    return 0;
 }

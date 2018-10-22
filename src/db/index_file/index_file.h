@@ -16,4 +16,8 @@ int append_index_to_file(char *filename, index_file_model index);
 
 index_file_model *read_index_from_file(char *filename, int seek);
 
+index_file_model *get_file_indexes(char *filename);
+
+int count_indexes(char *filename);
+
 #endif //C_INDEXFILE_H

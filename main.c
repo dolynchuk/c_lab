@@ -6,13 +6,13 @@
 
 void clear_files(void) {
     remove_users_data();
-    clear_group_db();
+    remove_groups_data();
     clear_group_users_db();
 }
 
 void log_users_to_console() {
     printf("\n");
-    index_file_model *x = __get_users_indexes__();
+    index_file_model *x = get_file_indexes("users.index");
     for (int i = 0; i < 100; i++) {
         printf("\nid: %d", x[i].id);
         printf(" byte: %08d", x[i].first_byte);
@@ -41,10 +41,22 @@ int main() {
 
     update_user(4, create_user(12, "Oleg", "Vinnyk"));
 
+
+
     user_model found = get_user(3);
     printf("\nname of user with id 3 - %s", found.name);
     printf("\ntotal users count - %d", count_users());
 
+
+
+
+
+    group_model anekdoty = create_group("anekdoty");
+    insert_group(anekdoty);
+
+    update_group(1, create_group("vasya"));
+
+    printf("\n groups count - %d", count_groups());
 
     log_users_to_console();
 
