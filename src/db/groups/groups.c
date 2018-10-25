@@ -2,14 +2,6 @@
 
 int group_id_counter = 1;
 
-
-int remove_groups_data() {
-    remove("groups.db");
-    remove("groups.index");
-
-    return 0;
-}
-
 group_model *__get_groups_db__() {
     FILE *file = fopen("groups.db", "rb");
     int i = 0;
@@ -25,20 +17,6 @@ group_model *__get_groups_db__() {
     return groups;
 }
 
-int __update_group_db(int seek, group_model *newGroup) {
-    FILE *file = fopen("groups.db", "r+");
-
-    if (file != NULL) {
-        fseek(file, seek, SEEK_SET);
-        fwrite(newGroup, sizeof(group_model), 1, file);
-        fclose(file);
-        return 0;
-    } else {
-        fclose(file);
-        return 1;
-    }
-}
-
 int __append_group_to_db__(group_model group) {
     FILE *file = fopen("groups.db", "a");
     int first_byte = (int) ftell(file);
@@ -46,6 +24,7 @@ int __append_group_to_db__(group_model group) {
     group_model *object = malloc(sizeof(group_model));
     object->group_id = group.group_id;
     strcpy((char *) object->name, (char *) group.name);
+
 
     if (file != NULL) {
         fwrite(object, sizeof(group_model), 1, file);
@@ -70,6 +49,37 @@ group_model *__read_group_from_db__(int seek) {
     return object;
 }
 
+int __update_group_db(int seek, group_model *newGroup) {
+    FILE *file = fopen("groups.db", "r+");
+
+    if (file != NULL) {
+        fseek(file, seek, SEEK_SET);
+        fwrite(newGroup, sizeof(group_model), 1, file);
+        fclose(file);
+        return 0;
+    } else {
+        fclose(file);
+        return 1;
+    }
+}
+
+//Public API functions
+
+group_model create_group(char *name) {
+    group_model *group = malloc(sizeof(group_model));
+    strcpy((char *) group->name, name);
+    group->group_id = group_id_counter++;
+
+    return *group;
+}
+
+int insert_group(group_model group) {
+    int first_byte = __append_group_to_db__(group);
+    index_file_model group_index = create_index(group.group_id, first_byte);
+    append_index_to_file("groups.index", group_index);
+    return 0;
+}
+
 group_model get_group(int id) {
     if (id == 0) {
         return create_group("");
@@ -82,20 +92,6 @@ group_model get_group(int id) {
         }
     }
     return create_group("");
-}
-
-group_model create_group(char *name) {
-    group_model *group = malloc(sizeof(group_model));
-    strcpy((char *) group->name, name);
-    group->group_id = group_id_counter++;
-    return *group;
-}
-
-int insert_group(group_model group) {
-    int first_byte = __append_group_to_db__(group);
-    index_file_model group_index = create_index(group.group_id, first_byte);
-    append_index_to_file("groups.index", group_index);
-    return 0;
 }
 
 int update_group(int id, group_model group) {
@@ -112,6 +108,13 @@ int update_group(int id, group_model group) {
 
 int count_groups() {
     return count_indexes("groups.index");
+}
+
+int remove_groups_data() {
+    remove("groups.db");
+    remove("groups.index");
+
+    return 0;
 }
 
 int remove_group(int id){

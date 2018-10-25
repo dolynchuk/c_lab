@@ -10,20 +10,22 @@
 typedef struct GROUP_MODEL {
     int group_id;
     char name[50];
+
+
 } group_model;
 
 group_model create_group(char *name);
 
+group_model get_group(int id);
+
 int insert_group(group_model group);
 
-int remove_groups_data();
+int count_groups();
 
 int remove_group(int id);
 
-group_model get_group(int id);
-
 int update_group(int id, group_model group);
 
-int count_groups();
+int remove_groups_data();
 
 #endif //C_GROUP_H

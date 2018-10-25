@@ -2,7 +2,6 @@
 
 int user_id_counter = 1;
 
-
 user_model *__get_users_db__() {
     FILE *file = fopen("users.db", "rb");
     int i = 0;
@@ -96,7 +95,6 @@ user_model get_user(int id) {
     }
     return create_user(0, "", "");
 }
-
 
 int update_user(int id, user_model user) {
     user.user_id = id;
