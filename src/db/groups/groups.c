@@ -1,4 +1,5 @@
 #include "groups.h"
+#include "../groups_users/groups_users.h"
 
 int group_id_counter = 1;
 
@@ -49,7 +50,7 @@ group_model *__read_group_from_db__(int seek) {
     return object;
 }
 
-int __update_group_db(int seek, group_model *newGroup) {
+int __update_group_db__(int seek, group_model *newGroup) {
     FILE *file = fopen("groups.db", "r+");
 
     if (file != NULL) {
@@ -100,7 +101,7 @@ int update_group(int id, group_model group) {
     index_file_model *indexes = get_file_indexes("groups.index");
     for (int i = 0; i < 100; i++) {
         if (indexes[i].id == id) {
-            __update_group_db(indexes[i].first_byte, &group);
+            __update_group_db__(indexes[i].first_byte, &group);
         }
     }
     return 0;
@@ -113,7 +114,8 @@ int count_groups() {
 int remove_groups_data() {
     remove("groups.db");
     remove("groups.index");
-
+    write_file_content("groups.db", "", 0);
+    write_file_content("groups.index", "", 0);
     return 0;
 }
 
@@ -137,6 +139,15 @@ int remove_group(int id){
     for (int i = 0; i < 100; i++) {
         if (filtered_db[i].group_id != 0) {
             insert_group(filtered_db[i]);
+        }
+    }
+
+
+    index_file_model *indexes = get_file_indexes("groups_users.index");
+    for (int i = 0; i < 100; i++){
+        groups_users_model groups_users = get_groups_users(indexes[i].id);
+        if (groups_users.group_id == id){
+            remove_groups_users(indexes[i].id);
         }
     }
 

@@ -50,7 +50,7 @@ user_model *__read_user_from_db__(int seek) {
     return object;
 }
 
-int __update_user_db(int seek, user_model *newUser) {
+int __update_user_db__(int seek, user_model *newUser) {
     FILE *file = fopen("users.db", "r+");
 
     if (file != NULL) {
@@ -102,7 +102,7 @@ int update_user(int id, user_model user) {
     index_file_model *indexes = get_file_indexes("users.index");
     for (int i = 0; i < 100; i++) {
         if (indexes[i].id == id) {
-            __update_user_db(indexes[i].first_byte, &user);
+            __update_user_db__(indexes[i].first_byte, &user);
         }
     }
     return 0;
@@ -115,7 +115,8 @@ int count_users() {
 int remove_users_data() {
     remove("users.db");
     remove("users.index");
-
+    write_file_content("users.db", "", 0);
+    write_file_content("users.index", "", 0);
     return 0;
 }
 
@@ -139,6 +140,14 @@ int remove_user(int id) {
     for (int i = 0; i < 100; i++) {
         if (filtered_users_db[i].user_id != 0) {
             insert_user(filtered_users_db[i]);
+        }
+    }
+
+    index_file_model *indexes = get_file_indexes("groups_users.index");
+    for (int i = 0; i < 100; i++){
+        groups_users_model groups_users = get_groups_users(indexes[i].id);
+        if (groups_users.user_id == id){
+            remove_groups_users(indexes[i].id);
         }
     }
 

@@ -24,6 +24,7 @@ int __append_groups_users_to_db__(groups_users_model groups_users) {
     groups_users_model *object = malloc(sizeof(groups_users_model));
     object->group_id = groups_users.group_id;
     object->user_id = groups_users.user_id;
+    object->groups_users_id = groups_users.groups_users_id;
 
 
     if (file != NULL) {
@@ -49,7 +50,7 @@ groups_users_model *__read_groups_users_from_db__(int seek) {
     return object;
 }
 
-int __update_groups_users_db(int seek, groups_users_model *newGroupsUsers) {
+int __update_groups_users_db__(int seek, groups_users_model *newGroupsUsers) {
     FILE *file = fopen("groups_users.db", "r+");
 
     if (file != NULL) {
@@ -101,7 +102,7 @@ int update_groups_users(int id, groups_users_model groups_users) {
     index_file_model *indexes = get_file_indexes("groups_users.index");
     for (int i = 0; i < 100; i++) {
         if (indexes[i].id == id) {
-            __update_groups_users_db(indexes[i].first_byte, &groups_users);
+            __update_groups_users_db__(indexes[i].first_byte, &groups_users);
         }
     }
     return 0;
@@ -114,7 +115,8 @@ int count_groups_users() {
 int remove_groups_users_data() {
     remove("groups_users.db");
     remove("groups_users.index");
-
+    write_file_content("groups_users.db", "", 0);
+    write_file_content("groups_users.index", "", 0);
     return 0;
 }
 
@@ -136,7 +138,7 @@ int remove_groups_users(int id){
     remove_groups_users_data();
 
     for (int i = 0; i < 100; i++) {
-        if (filtered_db[i].group_id != 0) {
+        if (filtered_db[i].groups_users_id != 0) {
             insert_groups_users(filtered_db[i]);
         }
     }

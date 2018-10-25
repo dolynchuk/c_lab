@@ -7,6 +7,7 @@
 #include <unistd.h>
 #include "../../io/io.h"
 #include "../index_file/index_file.h"
+#include "../groups_users/groups_users.h"
 
 typedef struct USER_MODEL {
     int user_id;

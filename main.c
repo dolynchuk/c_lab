@@ -12,12 +12,24 @@ void clear_files(void) {
 
 void log_users_to_console() {
     printf("\n");
+    printf("\n");
     index_file_model *x = get_file_indexes("users.index");
     for (int i = 0; i < 100; i++) {
         printf("\nid: %d", x[i].id);
         printf(" byte: %08d", x[i].first_byte);
         user_model user = get_user(x[i].id);
         printf(" information: %s %s", user.name, user.surname);
+    }
+};
+
+void log_groups_users_to_console() {
+    printf("\n");
+    printf("\n");
+    index_file_model *x = get_file_indexes("groups_users.index");
+    for (int i = 0; i < 100; i++) {
+        groups_users_model groups_users = get_groups_users(x[i].id);
+        printf(" user %d in group %d", groups_users.user_id, groups_users.group_id);
+        printf("\n");
     }
 };
 
@@ -33,32 +45,17 @@ int main() {
     user_model user3 = create_user(20, "Alina", "Skalkina");
     insert_user(user3);
 
-    remove_user(2);
-
     user_model user4 = create_user(2, "AAAAA", "BBBBB");
     insert_user(user4);
 
+    insert_groups_users(create_groups_users(100, 1));
+    insert_groups_users(create_groups_users(1000, 2));
+    insert_groups_users(create_groups_users(1221, 3));
 
-    update_user(4, create_user(12, "Oleg", "Vinnyk"));
-
-
-
-    user_model found = get_user(3);
-    printf("\nname of user with id 3 - %s", found.name);
-    printf("\ntotal users count - %d", count_users());
-
-
-
-
-
-    group_model anekdoty = create_group("anekdoty");
-    insert_group(anekdoty);
-
-    update_group(1, create_group("vasya"));
-
-    printf("\n groups count - %d", count_groups());
+    remove_user(2);
 
     log_users_to_console();
+    log_groups_users_to_console();
 
     return 0;
 }
