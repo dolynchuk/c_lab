@@ -1,13 +1,13 @@
 #include "src/io/io.h"
 #include "src/db/users/users.h"
 #include "src/db/groups/groups.h"
-#include "src/db/group_users/group_users.h"
+#include "src/db/groups_users/groups_users.h"
 #include "src/db/index_file/index_file.h"
 
 void clear_files(void) {
     remove_users_data();
     remove_groups_data();
-    clear_group_users_db();
+    remove_groups_users_data();
 }
 
 void log_users_to_console() {

@@ -142,4 +142,3 @@ int remove_group(int id){
 
     return 0;
 }
-
