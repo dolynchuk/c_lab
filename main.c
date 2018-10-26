@@ -10,7 +10,7 @@ void clear_files(void) {
     remove_groups_users_data();
 }
 
-void log_users_to_console() {
+void log_users_to_console(void) {
     printf("\n");
     printf("\n");
     index_file_model *x = get_file_indexes("users.index");
@@ -24,7 +24,7 @@ void log_users_to_console() {
     }
 };
 
-void log_groups_users_to_console() {
+void log_groups_users_to_console(void) {
     printf("\n");
     printf("\n");
     index_file_model *x = get_file_indexes("groups_users.index");

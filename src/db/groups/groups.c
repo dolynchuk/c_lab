@@ -3,7 +3,7 @@
 
 int group_id_counter = 1;
 
-group_model *__get_groups_db__() {
+group_model *__get_groups_db__(void) {
     FILE *file = fopen("groups.db", "rb");
     int i = 0;
     group_model *groups = malloc(sizeof(group_model) * 100);
@@ -107,11 +107,11 @@ int update_group(int id, group_model group) {
     return 0;
 }
 
-int count_groups() {
+int count_groups(void) {
     return count_indexes("groups.index");
 }
 
-int remove_groups_data() {
+int remove_groups_data(void) {
     remove("groups.db");
     remove("groups.index");
     write_file_content("groups.db", "", 0);

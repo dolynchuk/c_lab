@@ -22,12 +22,12 @@ user_model get_user(int id);
 
 int insert_user(user_model user);
 
-int count_users();
+int count_users(void);
 
 int remove_user(int id);
 
 int update_user(int id, user_model user);
 
-int remove_users_data();
+int remove_users_data(void);
 
 #endif //C_USER_H

@@ -2,7 +2,7 @@
 
 int groups_users_id_counter = 1;
 
-groups_users_model *__get_groups_users_db__() {
+groups_users_model *__get_groups_users_db__(void) {
     FILE *file = fopen("groups_users.db", "rb");
     int i = 0;
     groups_users_model *groups_users = malloc(sizeof(groups_users_model) * 100);
@@ -108,11 +108,11 @@ int update_groups_users(int id, groups_users_model groups_users) {
     return 0;
 }
 
-int count_groups_users() {
+int count_groups_users(void) {
     return count_indexes("groups_users.index");
 }
 
-int remove_groups_users_data() {
+int remove_groups_users_data(void) {
     remove("groups_users.db");
     remove("groups_users.index");
     write_file_content("groups_users.db", "", 0);

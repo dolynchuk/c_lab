@@ -20,12 +20,12 @@ group_model get_group(int id);
 
 int insert_group(group_model group);
 
-int count_groups();
+int count_groups(void);
 
 int remove_group(int id);
 
 int update_group(int id, group_model group);
 
-int remove_groups_data();
+int remove_groups_data(void);
 
 #endif //C_GROUP_H

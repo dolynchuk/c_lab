@@ -2,7 +2,7 @@
 
 int user_id_counter = 1;
 
-user_model *__get_users_db__() {
+user_model *__get_users_db__(void) {
     FILE *file = fopen("users.db", "rb");
     int i = 0;
     user_model *users = malloc(sizeof(user_model) * 100);
@@ -108,11 +108,11 @@ int update_user(int id, user_model user) {
     return 0;
 }
 
-int count_users() {
+int count_users(void) {
     return count_indexes("users.index");
 }
 
-int remove_users_data() {
+int remove_users_data(void) {
     remove("users.db");
     remove("users.index");
     write_file_content("users.db", "", 0);
