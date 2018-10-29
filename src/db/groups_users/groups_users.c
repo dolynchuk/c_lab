@@ -1,7 +1,5 @@
 #include "groups_users.h"
 
-int groups_users_id_counter = 1;
-
 groups_users_model *__get_groups_users_db__(void) {
     FILE *file = fopen("groups_users.db", "rb");
     int i = 0;
@@ -70,7 +68,7 @@ groups_users_model create_groups_users(int group_id, int user_id) {
     groups_users_model *groups_users = malloc(sizeof(groups_users_model));
     groups_users->group_id = group_id;
     groups_users->user_id = user_id;
-    groups_users->groups_users_id = groups_users_id_counter++;
+    groups_users->groups_users_id = (int)time(NULL) - 1500000000;
 
     return *groups_users;
 }

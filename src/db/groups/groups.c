@@ -1,8 +1,6 @@
 #include "groups.h"
 #include "../groups_users/groups_users.h"
 
-int group_id_counter = 1;
-
 group_model *__get_groups_db__(void) {
     FILE *file = fopen("groups.db", "rb");
     int i = 0;
@@ -69,7 +67,7 @@ int __update_group_db__(int seek, group_model *newGroup) {
 group_model create_group(char *name) {
     group_model *group = malloc(sizeof(group_model));
     strcpy((char *) group->name, name);
-    group->group_id = group_id_counter++;
+    group->group_id = (int)time(NULL) - 1500000000;
 
     return *group;
 }

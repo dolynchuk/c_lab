@@ -4,6 +4,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <time.h>
 #include "../../io/io.h"
 #include "../index_file/index_file.h"
 
@@ -25,6 +26,8 @@ int count_groups(void);
 int remove_groups_users(int id);
 
 int update_groups_users(int id, groups_users_model group);
+
+int count_groups_users(void);
 
 int remove_groups_users_data(void);
 

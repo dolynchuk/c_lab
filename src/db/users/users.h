@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <time.h>
 #include "../../io/io.h"
 #include "../index_file/index_file.h"
 #include "../groups_users/groups_users.h"

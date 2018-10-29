@@ -1,7 +1,5 @@
 #include "users.h"
 
-int user_id_counter = 1;
-
 user_model *__get_users_db__(void) {
     FILE *file = fopen("users.db", "rb");
     int i = 0;
@@ -71,7 +69,7 @@ user_model create_user(int age, char *name, char *surname) {
     user->age = age;
     strcpy((char *) user->name, name);
     strcpy((char *) user->surname, surname);
-    user->user_id = user_id_counter++;
+    user->user_id = (int)time(NULL) - 1500000000;
     return *user;
 }
 
