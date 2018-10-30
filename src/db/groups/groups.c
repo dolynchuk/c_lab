@@ -72,6 +72,15 @@ group_model create_group(char *name) {
     return *group;
 }
 
+group_model create_empty_group() {
+    group_model *group = malloc(sizeof(group_model));
+    strcpy((char *) group->name, "");
+    group->group_id = 0;
+
+    return *group;
+}
+
+
 int insert_group(group_model group) {
     int first_byte = __append_group_to_db__(group);
     index_file_model group_index = create_index(group.group_id, first_byte);
@@ -81,7 +90,7 @@ int insert_group(group_model group) {
 
 group_model get_group(int id) {
     if (id == 0) {
-        return create_group("");
+        return create_empty_group();
     }
 
     index_file_model *indexes = get_file_indexes("groups.index");
@@ -90,7 +99,7 @@ group_model get_group(int id) {
             return *__read_group_from_db__(indexes[i].first_byte);
         }
     }
-    return create_group("");
+    return create_empty_group();
 }
 
 int update_group(int id, group_model group) {
