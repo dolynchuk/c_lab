@@ -118,41 +118,6 @@ groups_users_model parse_groups_users_from_command(char *command){
     return groups_users;
 }
 
-group_model *get_user_groups(int user_id){
-    index_file_model *indexes = get_file_indexes("groups_users.index");
-    group_model *groups = malloc(sizeof(group_model) * 100);
-    int count = 0;
-    for (int i = 0; i < 100; i++){
-        if (indexes[i].id != 0){
-            groups_users_model object = get_groups_users(indexes[i].id);
-            if (object.user_id == user_id){
-                groups[count] = get_group(object.group_id);
-                count++;
-            }
-        }
-    }
-
-    return groups;
-}
-
-
-user_model *get_group_users(int group_id){
-    index_file_model *indexes = get_file_indexes("groups_users.index");
-    user_model *users = malloc(sizeof(user_model) * 100);
-    int count = 0;
-    for (int i = 0; i < 100; i++){
-        if (indexes[i].id != 0){
-            groups_users_model object = get_groups_users(indexes[i].id);
-            if (object.group_id == group_id){
-                users[count] = get_user(object.user_id);
-                count++;
-            }
-        }
-    }
-
-    return users;
-}
-
 char *extract(const char *string, int start, int end){
     char *result = malloc(sizeof(char) * (end - start));
     int count = 0;
@@ -166,8 +131,6 @@ char *extract(const char *string, int start, int end){
 }
 
 int main() {
-    clear_files();
-
     char *raw_input = malloc(sizeof(char) * 200);
 
     while(1){
@@ -179,6 +142,42 @@ int main() {
 
         if (startswith("exit", command)){
             break;
+        }
+
+        if (startswith("select users for group", command)) {
+            char *id_string = malloc(sizeof(char) * 50);
+            printf("what group? ");
+            scanf("%[^\n]%*c", id_string);
+            index_file_model *x = get_file_indexes("groups_users.index");
+            for (int i = 0; i < 100; i++) {
+                groups_users_model groups_users = get_groups_users(x[i].id);
+                if (groups_users.group_id == atoi(id_string) && atoi(id_string) != 0) {
+                    user_model user = get_user(groups_users.user_id);
+                    printf(
+                            "\ngroup_id: %d, name: %s, surname: %s, age: %d",
+                            user.user_id,
+                            user.name,
+                            user.surname,
+                            user.age
+                    );
+                }
+            }
+            continue;
+        }
+
+        if (startswith("select groups for user", command)) {
+            char *id_string = malloc(sizeof(char) * 50);
+            printf("what user? ");
+            scanf("%[^\n]%*c", id_string);
+            index_file_model *x = get_file_indexes("groups_users.index");
+            for (int i = 0; i < 100; i++) {
+                groups_users_model groups_users = get_groups_users(x[i].id);
+                if (groups_users.user_id == atoi(id_string) && atoi(id_string) != 0) {
+                    group_model group = get_group(groups_users.group_id);
+                    printf("\ngroup_id: %d, name: %s", group.group_id, group.name);
+                }
+            }
+            continue;
         }
 
         if (startswith("select user", command)){
@@ -296,6 +295,42 @@ int main() {
         if (startswith("count groups", command)){
             printf("users count - %d", count_groups());
             continue;
+        }
+
+        if (startswith("remove user", command)) {
+            printf("what user you want to remove? ");
+            char *id_string = malloc(sizeof(char) * 50);
+            scanf("%[^\n]%*c", id_string);
+            remove_user(atoi(id_string));
+            printf("user %s removed", id_string);
+            continue;
+        }
+
+        if (startswith("remove groups_users", command)) {
+            printf("what groups_users you want to remove? ");
+            char *id_string = malloc(sizeof(char) * 50);
+            scanf("%[^\n]%*c", id_string);
+            remove_groups_users(atoi(id_string));
+            printf("groups_users %s removed", id_string);
+            continue;
+        }
+
+        if (startswith("remove group", command)) {
+            printf("what groups_users you want to remove? ");
+            char *id_string = malloc(sizeof(char) * 50);
+            scanf("%[^\n]%*c", id_string);
+            remove_group(atoi(id_string));
+            printf("group %s removed", id_string);
+            continue;
+        }
+
+        if (startswith("clear database", command)) {
+            printf("are you sure? ");
+            char *answer = malloc(sizeof(char) * 50);
+            scanf("%[^\n]%*c", answer);
+            if (answer[0] == 'y') {
+                clear_files();
+            }
         }
     }
 
