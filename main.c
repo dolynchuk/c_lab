@@ -5,6 +5,7 @@
 #include "src/db/groups_users/groups_users.h"
 #include "src/db/index_file/index_file.h"
 
+
 void clear_files(void) {
     remove_users_data();
     remove_groups_data();
